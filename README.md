@@ -1,21 +1,31 @@
-# bun-react-template
-
-To install dependencies:
+# zscores
 
 ```bash
 bun install
 ```
 
-To start a development server:
+Run chroma server:
+
+```bash
+chroma run
+```
+
+Insert data locally:
+
+```bash
+bun scripts/scrape.ts
+bun scripts/calc-scores.ts
+bun scripts/insert-vectors.ts
+```
+
+Test query:
+
+```bash
+bun scripts/find-similar.ts "Austin Reaves"
+```
+
+Start web app:
 
 ```bash
 bun dev
 ```
-
-To run for production:
-
-```bash
-bun start
-```
-
-This project was created using `bun init` in bun v1.3.2. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
