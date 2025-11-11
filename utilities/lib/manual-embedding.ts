@@ -5,15 +5,15 @@ import {
 
 export const MANUAL_EMBEDDING_NAME = "manual-scores";
 
-export class ManualScoresEmbedding implements EmbeddingFunction {
+class ManualScoresEmbedding implements EmbeddingFunction {
   name = MANUAL_EMBEDDING_NAME;
 
-  static buildFromConfig(_config: Record<string, any>) {
+  static buildFromConfig(_config: Record<string, unknown>) {
     return new ManualScoresEmbedding();
   }
 
-  getConfig() {
-    return {} as Record<string, any>;
+  getConfig(): Record<string, unknown> {
+    return {};
   }
 
   async generate(): Promise<number[][]> {
@@ -25,10 +25,13 @@ export class ManualScoresEmbedding implements EmbeddingFunction {
 
 let registered = false;
 
-export function ensureManualEmbeddingRegistered() {
+function ensureManualEmbeddingRegistered() {
   if (registered) return;
   try {
-    registerEmbeddingFunction(MANUAL_EMBEDDING_NAME, ManualScoresEmbedding as any);
+    registerEmbeddingFunction(
+      MANUAL_EMBEDDING_NAME,
+      ManualScoresEmbedding as any,
+    );
   } catch (error) {
     if (
       !(error instanceof Error) ||
@@ -44,3 +47,5 @@ export function createManualEmbeddingInstance() {
   ensureManualEmbeddingRegistered();
   return new ManualScoresEmbedding();
 }
+
+export type { ManualScoresEmbedding };

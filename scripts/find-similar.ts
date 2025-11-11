@@ -1,6 +1,6 @@
 import { ChromaClient } from "chromadb";
 import { Database } from "bun:sqlite";
-import { createManualEmbeddingInstance } from "./manual-embedding";
+import { createManualEmbeddingInstance } from "@utilities/lib/manual-embedding";
 
 const CHROMA_HOST = "localhost";
 const CHROMA_PORT = 8000;

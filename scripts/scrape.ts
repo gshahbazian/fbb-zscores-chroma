@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 import { mkdir } from "node:fs/promises";
-import { parseNBAStats, type ParsedRow } from "scripts/nba";
+import { parseNBAStats, type ParsedRow } from "@utilities/nba-api";
 
 function inferColumnTypes(rows: ParsedRow[]): Record<string, string> {
   const types: Record<string, string> = {};
