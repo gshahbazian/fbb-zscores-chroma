@@ -1,4 +1,5 @@
 import { Database } from "bun:sqlite";
+import { mkdir } from "node:fs/promises";
 
 type NbaRow = {
   PLAYER_ID: number;
@@ -212,11 +213,11 @@ function getPlayerZScores(player: NbaRow, league: LeagueStats) {
   };
 }
 
-async function main() {
-  const db = new Database("out/data.sqlite", { readonly: true });
+const dataDb = new Database("out/data.sqlite", { readonly: true });
 
+async function buildLeagueStatsFromDB(): Promise<LeagueStats> {
   // grab the top 200 by NBA_FANTASY_PTS
-  const rows = db
+  const rows = dataDb
     .query(
       `
       SELECT 
@@ -259,16 +260,113 @@ async function main() {
   }));
 
   const leagueStats = buildLeagueStats(players);
-
-  // example: compute z-scores for first player
-  const first = players[0]!;
-  const z = getPlayerZScores(first, leagueStats);
-
-  console.log("First player:", first.PLAYER_NAME);
-  console.log("Z-scores:", z);
+  return leagueStats;
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+const leagueStats = await buildLeagueStatsFromDB();
+
+type PlayerScoreRow = {
+  playerId: number;
+  playerName: string;
+  team: string | null;
+  FG: number;
+  FT: number;
+  "3PTM": number;
+  PTS: number;
+  REB: number;
+  AST: number;
+  STL: number;
+  BLK: number;
+  TOV: number;
+  totalZ: number;
+};
+
+function buildPlayerScores(league: LeagueStats): PlayerScoreRow[] {
+  return league.players.map((player) => {
+    const zScores = getPlayerZScores(player, league);
+    const totalZ = Object.values(zScores).reduce((sum, value) => sum + value, 0);
+
+    return {
+      playerId: player.PLAYER_ID,
+      playerName: player.PLAYER_NAME,
+      team: player.TEAM_ABBREVIATION,
+      ...zScores,
+      totalZ,
+    };
+  });
+}
+
+async function writeScores(players: PlayerScoreRow[]) {
+  await mkdir("out", { recursive: true });
+  const scoresFile = Bun.file("out/scores.sqlite");
+  if (await scoresFile.exists()) {
+    await scoresFile.delete();
+  }
+
+  const scoresDb = new Database("out/scores.sqlite", { create: true });
+
+  scoresDb.run(`DROP TABLE IF EXISTS player_scores;`);
+  scoresDb.run(`
+    CREATE TABLE IF NOT EXISTS player_scores (
+      player_id INTEGER PRIMARY KEY,
+      player_name TEXT NOT NULL,
+      team TEXT,
+      fg_z REAL,
+      ft_z REAL,
+      three_ptm_z REAL,
+      pts_z REAL,
+      reb_z REAL,
+      ast_z REAL,
+      stl_z REAL,
+      blk_z REAL,
+      tov_z REAL,
+      total_z REAL
+    );
+  `);
+
+  const insert = scoresDb.prepare(
+    `INSERT INTO player_scores (
+      player_id,
+      player_name,
+      team,
+      fg_z,
+      ft_z,
+      three_ptm_z,
+      pts_z,
+      reb_z,
+      ast_z,
+      stl_z,
+      blk_z,
+      tov_z,
+      total_z
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
+  );
+
+  const insertMany = scoresDb.transaction((rows: PlayerScoreRow[]) => {
+    for (const row of rows) {
+      insert.run(
+        row.playerId,
+        row.playerName,
+        row.team,
+        row.FG,
+        row.FT,
+        row["3PTM"],
+        row.PTS,
+        row.REB,
+        row.AST,
+        row.STL,
+        row.BLK,
+        row.TOV,
+        row.totalZ,
+      );
+    }
+  });
+
+  insertMany(players);
+  scoresDb.close();
+}
+
+const scores = buildPlayerScores(leagueStats);
+await writeScores(scores);
+
+console.log(`Wrote ${scores.length} player scores to out/scores.sqlite`);
