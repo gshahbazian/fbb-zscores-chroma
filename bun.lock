@@ -5,6 +5,7 @@
     "": {
       "name": "bun-react-template",
       "dependencies": {
+        "chromadb": "^3.1.2",
         "react": "^19",
         "react-dom": "^19",
       },
@@ -26,6 +27,18 @@
 
     "bun-types": ["bun-types@1.3.2", "", { "dependencies": { "@types/node": "*" }, "peerDependencies": { "@types/react": "^19" } }, "sha512-i/Gln4tbzKNuxP70OWhJRZz1MRfvqExowP7U6JKoI8cntFrtxg7RJK3jvz7wQW54UuvNC8tbKHHri5fy74FVqg=="],
 
+    "chromadb": ["chromadb@3.1.2", "", { "dependencies": { "semver": "^7.7.1" }, "optionalDependencies": { "chromadb-js-bindings-darwin-arm64": "^1.1.0", "chromadb-js-bindings-darwin-x64": "^1.1.0", "chromadb-js-bindings-linux-arm64-gnu": "^1.1.0", "chromadb-js-bindings-linux-x64-gnu": "^1.1.0", "chromadb-js-bindings-win32-x64-msvc": "^1.1.0" }, "bin": { "chroma": "dist/cli.mjs" } }, "sha512-y+jBs6I2pWM9LCMLgNr+citwtIZQEc0gEjQUgo9N/uqnOL3LiBzV5Q8LjAs7Pj+e53lhgNDMZa5m9cNn6y+HLw=="],
+
+    "chromadb-js-bindings-darwin-arm64": ["chromadb-js-bindings-darwin-arm64@1.1.0", "", { "os": "darwin", "cpu": "arm64" }, "sha512-0N2MpTdip9czfeUo3rXe17gowRiIhfv1EDNt+ycVPQe3Jna9cCqOU6PZDVIj/doNNE0ZS+jRF54tOZut/5Zwqw=="],
+
+    "chromadb-js-bindings-darwin-x64": ["chromadb-js-bindings-darwin-x64@1.1.0", "", { "os": "darwin", "cpu": "x64" }, "sha512-CLyGULSb1rzJvibL6Gm9esq+PtROlxIrGFi78C7xQDeJ9pOghCyFIY+RIK1yrLdFaujXk+T7wjbyn+cJLZ/vpw=="],
+
+    "chromadb-js-bindings-linux-arm64-gnu": ["chromadb-js-bindings-linux-arm64-gnu@1.1.0", "", { "os": "linux", "cpu": "arm64" }, "sha512-gUDYrWukiQY2ETsvwlzpVUI3d9mdte2qLxYqb7aBj8RKeGfsfzNnecGwx8lkmUGIlld8eWeHVrhmeAOXVfNaGw=="],
+
+    "chromadb-js-bindings-linux-x64-gnu": ["chromadb-js-bindings-linux-x64-gnu@1.1.0", "", { "os": "linux", "cpu": "x64" }, "sha512-4WK1TgxElFjdXBtOkMgnnaB9PVcXEEVtRY3kAOSR8sZ/ZQ2gRbqc/rM2i8pc8h/jQG8oo5nMqhipEzu3UGqKaA=="],
+
+    "chromadb-js-bindings-win32-x64-msvc": ["chromadb-js-bindings-win32-x64-msvc@1.1.0", "", { "os": "win32", "cpu": "x64" }, "sha512-yfvGagYzqUa/MSG6HoXhfa+Crznhzt0L/N6QROdPXrHxQ0kG/+4/l4rh3VvZ7zThzvpDg5ncnFesf5ryIC33ow=="],
+
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
     "react": ["react@19.2.0", "", {}, "sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ=="],
@@ -33,6 +46,8 @@
     "react-dom": ["react-dom@19.2.0", "", { "dependencies": { "scheduler": "^0.27.0" }, "peerDependencies": { "react": "^19.2.0" } }, "sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ=="],
 
     "scheduler": ["scheduler@0.27.0", "", {}, "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="],
+
+    "semver": ["semver@7.7.3", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q=="],
 
     "undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
   }
