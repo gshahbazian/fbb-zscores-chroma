@@ -1,24 +1,13 @@
 import { ChromaClient } from "chromadb";
 import { Database } from "bun:sqlite";
+import { EMBEDDING_ORDER } from "@utilities/config";
+import type { EmbeddingKey } from "@utilities/config";
 import { createManualEmbeddingInstance } from "@utilities/lib/manual-embedding";
 
 const CHROMA_HOST = "localhost";
 const CHROMA_PORT = 8000;
 const COLLECTION_NAME = "scores";
 const SCORES_DB_PATH = "out/scores.sqlite";
-const EMBEDDING_ORDER = [
-  "FG",
-  "FT",
-  "3PTM",
-  "PTS",
-  "REB",
-  "AST",
-  "STL",
-  "BLK",
-  "TOV",
-] as const;
-
-type EmbeddingKey = (typeof EMBEDDING_ORDER)[number];
 
 const embeddingFunction = createManualEmbeddingInstance();
 
