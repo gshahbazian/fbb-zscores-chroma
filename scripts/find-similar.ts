@@ -153,13 +153,3 @@ neighbors.forEach((match, index) => {
     }),
   );
 });
-const SUPPRESSED_WARNING =
-  "No embedding function configuration found for collection";
-
-const originalWarn = console.warn;
-console.warn = (...args: unknown[]) => {
-  if (args.length && typeof args[0] === "string" && args[0].startsWith(SUPPRESSED_WARNING)) {
-    return;
-  }
-  originalWarn(...args);
-};
